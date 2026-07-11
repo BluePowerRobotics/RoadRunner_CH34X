@@ -6,13 +6,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class SimpleUartAgreement {
     UsbUart usbUart;
-    private ConcurrentLinkedQueue<String> receivedMessages = new ConcurrentLinkedQueue<>();
+    private final ConcurrentLinkedQueue<String> receivedMessages = new ConcurrentLinkedQueue<>();
     private final ConcurrentHashMap<String, CopyOnWriteArrayList<String>> receivedValues = new ConcurrentHashMap<>();
     public List<String> getReceivedValue(String valueName){
         if (valueName == null) {
@@ -20,6 +22,13 @@ public class SimpleUartAgreement {
         }
         List<String> list = receivedValues.get(valueName);
         return list == null ? Collections.emptyList() : Collections.unmodifiableList(list);
+    }
+    public Map<String, List<String>> getAllReceivedValues() {
+        Map<String, List<String>> unmodifiableMap = new HashMap<>();
+        for (Map.Entry<String, CopyOnWriteArrayList<String>> entry : receivedValues.entrySet()) {
+            unmodifiableMap.put(entry.getKey(), Collections.unmodifiableList(entry.getValue()));
+        }
+        return Collections.unmodifiableMap(unmodifiableMap);
     }
     public SimpleUartAgreement (UsbUart usbUart){
         this.usbUart = usbUart;
