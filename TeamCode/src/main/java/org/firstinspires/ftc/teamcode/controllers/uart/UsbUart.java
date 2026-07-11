@@ -73,7 +73,7 @@ public class UsbUart {
     public UsbDevice getUsedUsbDevice() {
         return usedUsbDevice;
     }
-    public ArrayList<UsbDevice> getAllUsbDevices() {
+    public static ArrayList<UsbDevice> getAllUsbDevices() {
         ArrayList<UsbDevice> usbDevices = null;
         try{
             usbDevices = WCHUARTManager.getInstance().enumDevice();
