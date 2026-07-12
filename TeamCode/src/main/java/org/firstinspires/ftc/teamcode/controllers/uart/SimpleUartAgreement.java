@@ -25,6 +25,9 @@ public class SimpleUartAgreement {
         List<String> list = receivedValues.get(valueName);
         return list == null ? Collections.emptyList() : Collections.unmodifiableList(list);
     }
+    public List<String> removeReceivedValue(String valueName){
+        return receivedValues.remove(valueName);
+    }
     public Map<String, List<String>> getAllReceivedValues() {
         Map<String, List<String>> unmodifiableMap = new HashMap<>();
         for (Map.Entry<String, CopyOnWriteArrayList<String>> entry : receivedValues.entrySet()) {
