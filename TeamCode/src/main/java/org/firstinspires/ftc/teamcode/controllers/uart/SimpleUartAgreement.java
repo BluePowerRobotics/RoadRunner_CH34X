@@ -246,8 +246,15 @@ public class SimpleUartAgreement {
         double timePerByteMs = (double) bitsPerByte / serialParameters.getBaudRate() * 1000; // 毫秒
         return totalBytes * timePerByteMs;
     }
-    public double estimateGetMS(int argNum){
-        return estimateSendMS(1)+estimateSendMS(argNum);
+    public double estimateSentMS(String... strings){
+        UsbUart.SerialParameters serialParameters = usbUart.getSerialParameters();
+        int totalBytes = 4 + 1 + strings.length - 1 + 1 + 2;
+        for(String string: strings){
+            totalBytes += string.length();
+        }
+        int bitsPerByte = 1 + serialParameters.getDataBits() + serialParameters.getStopBits(); // = 10
+        double timePerByteMs = (double) bitsPerByte / serialParameters.getBaudRate() * 1000; // 毫秒
+        return totalBytes * timePerByteMs;
     }
 
     public void close(){
